@@ -24,7 +24,7 @@ func init() {
 	var category []models.Category
 
 	db.Find(&brands)
-	db.Find(&category)
+	db.Model(&models.Category{}).Preload("Children").Find(&category)
 
 	if len(category) == 0 {
 
