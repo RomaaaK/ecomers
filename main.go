@@ -16,6 +16,7 @@ func main() {
 
 	app.Static("/", "./public")
 
+	// add routing
 	Routes(app)
 
 	app.Listen(":3000")
