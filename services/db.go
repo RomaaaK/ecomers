@@ -18,11 +18,28 @@ func init() {
 		panic("failed to connect database")
 	}
 
-	db.AutoMigrate(&models.Brand{})
+	db.AutoMigrate(&models.Brand{}, &models.Category{}, &models.SubCategory{})
 
 	var brands []models.Brand
+	var category []models.Category
 
 	db.Find(&brands)
+	db.Find(&category)
+
+	if len(category) == 0 {
+
+		nike := models.SubCategory{Name: "Nike"}
+		adidas := models.SubCategory{Name: "Adidas"}
+		zara := models.SubCategory{Name: "Zara"}
+
+		sportsware := models.Category{Name: "SPORTSWEAR", Children: []models.SubCategory{nike, adidas, zara}}
+		mens := models.Category{Name: "Mens", Children: []models.SubCategory{nike, adidas, zara}}
+		womens := models.Category{Name: "Womens", Children: []models.SubCategory{nike, adidas, zara}}
+
+		db.Create(&sportsware)
+		db.Create(&mens)
+		db.Create(&womens)
+	}
 
 	if len(brands) == 0 {
 		nike := models.Brand{Name: "Nike"}
