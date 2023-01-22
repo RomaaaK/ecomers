@@ -11,7 +11,7 @@ func Index(c *fiber.Ctx) error {
 	var brands []models.Brand
 	var categories []models.Category
 
-	services.DB.Model(&models.Category{}).Preload("Children").Find(&categories)
+	services.DB.Model(&models.Category{}).Preload("Childrens").Find(&categories)
 	services.DB.Find(&brands)
 
 	return c.Render("index", fiber.Map{

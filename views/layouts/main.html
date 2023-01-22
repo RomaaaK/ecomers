@@ -105,31 +105,33 @@
                         <h2>Category</h2>
                         <div class="panel-group category-products" id="accordian"><!--category-productsr-->
                             {{ range .Categories }}
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title">
-                                        {{ if .Children }}
-                                        <a data-toggle="collapse" data-parent="#accordian" href="#{{ .Name }}">
-                                            <span class="badge pull-right"><i class="fa fa-plus"></i></span>
-                                            {{ .Name }}
-                                        </a>
-                                        {{ else }}
-                                        <a href="/category/{{ .ID }}">{{ .Name }}</a>
-                                        {{ end }}
-                                    </h4>
-                                </div>
-                                {{ if .Children }}
-                                <div id="{{ .Name }}" class="panel-collapse collapse">
-                                    <div class="panel-body">
-                                        <ul>
-                                            {{ range .Children }}
-                                            <li><a href="/category/{{ .ID }}">{{ .Name }}</a></li>
+                                {{ if not .CategoryID }}
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            {{ if .Childrens }}
+                                            <a data-toggle="collapse" data-parent="#accordian" href="#{{ .Name }}">
+                                                <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                                                {{ .Name }}
+                                            </a>
+                                            {{ else }}
+                                            <a href="/category/{{ .ID }}">{{ .Name }}</a>
                                             {{ end }}
-                                        </ul>
+                                        </h4>
                                     </div>
+                                    {{ if .Childrens }}
+                                    <div id="{{ .Name }}" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <ul>
+                                                {{ range .Childrens }}
+                                                <li><a href="/category/{{ .ID }}">{{ .Name }}</a></li>
+                                                {{ end }}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    {{ end }}
                                 </div>
                                 {{ end }}
-                            </div>
                             {{ end }}
                         </div><!--/category-products-->
 

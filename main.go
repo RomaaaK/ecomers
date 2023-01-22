@@ -18,10 +18,5 @@ func main() {
 
 	Routes(app)
 
-	app.Use(func(c *fiber.Ctx) error {
-		c.Context().SetStatusCode(404)
-		return c.Render("404", fiber.Map{}, "")
-	})
-
 	app.Listen(":3000")
 }

@@ -18,27 +18,29 @@ func init() {
 		panic("failed to connect database")
 	}
 
-	db.AutoMigrate(&models.Brand{}, &models.Category{}, &models.SubCategory{})
+	db.AutoMigrate(&models.Brand{}, &models.Category{})
 
 	var brands []models.Brand
 	var category []models.Category
 
 	db.Find(&brands)
-	db.Model(&models.Category{}).Preload("Children").Find(&category)
+	db.Model(&models.Category{}).Preload("Childrens").Find(&category)
 
 	if len(category) == 0 {
 
-		nike := models.SubCategory{Name: "Nike"}
-		adidas := models.SubCategory{Name: "Adidas"}
-		zara := models.SubCategory{Name: "Zara"}
+		nike := models.Category{Name: "Nike"}
+		adidas := models.Category{Name: "Adidas"}
+		zara := models.Category{Name: "Zara"}
 
-		sportsware := models.Category{Name: "SPORTSWEAR", Children: []models.SubCategory{nike, adidas, zara}}
-		mens := models.Category{Name: "Mens", Children: []models.SubCategory{nike, adidas, zara}}
-		womens := models.Category{Name: "Womens", Children: []models.SubCategory{nike, adidas, zara}}
+		sportsware := models.Category{Name: "SPORTSWEAR", Childrens: []models.Category{nike, adidas, zara}}
+		mens := models.Category{Name: "Mens", Childrens: []models.Category{zara, adidas}}
+		womens := models.Category{Name: "Womens", Childrens: []models.Category{adidas, nike}}
+		other := models.Category{Name: "Other"}
 
 		db.Create(&sportsware)
 		db.Create(&mens)
 		db.Create(&womens)
+		db.Create(&other)
 	}
 
 	if len(brands) == 0 {
