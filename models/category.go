@@ -7,4 +7,5 @@ type Category struct {
 	Name       string
 	CategoryID *uint
 	Childrens  []Category
+	Products   []Product
 }

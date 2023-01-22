@@ -8,5 +8,5 @@ import (
 
 func Routes(app *fiber.App) {
 	app.Get("/", handlers.Index)
-	app.Get("/product/:id", handlers.Product)
+	app.Get("/product/:id<int>", handlers.Product)
 }
