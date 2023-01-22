@@ -11,6 +11,7 @@ import (
 
 func main() {
 
+	// add .env setting file
 	err := godotenv.Load()
 
 	if err != nil {
