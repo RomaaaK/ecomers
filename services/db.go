@@ -22,13 +22,15 @@ func InitDataBase() {
 		log.Fatal("failed to connect database")
 	}
 
-	db.AutoMigrate(&models.Brand{}, &models.Category{})
+	db.AutoMigrate(&models.Brand{}, &models.Category{}, &models.Product{})
 
 	var brands []models.Brand
 	var category []models.Category
+	var products []models.Product
 
 	db.Find(&brands)
 	db.Model(&models.Category{}).Preload("Childrens").Find(&category)
+	db.Find(&products)
 
 	if len(category) == 0 {
 
@@ -57,6 +59,76 @@ func InitDataBase() {
 		db.Create(&zara)
 		db.Create(&adidas)
 		db.Create(&uniqlo)
+	}
+
+	if len(products) == 0 {
+		prod1 := models.Product{
+			Name:       "Anne Klein Sleeveless Colorblock Scuba",
+			Rating:     4,
+			Price:      59,
+			Quantity:   3,
+			Condition:  "New",
+			Image:      "/images/home/product1.jpg",
+			BrandID:    &brands[0].ID,
+			CategoryID: &category[10].ID,
+		}
+		prod2 := models.Product{
+			Name:       "Anne Klein Sleeveless Colorblock Scuba",
+			Rating:     4,
+			Price:      59,
+			Quantity:   3,
+			Condition:  "New",
+			Image:      "/images/home/product1.jpg",
+			BrandID:    &brands[0].ID,
+			CategoryID: &category[10].ID,
+		}
+		prod3 := models.Product{
+			Name:       "Anne Klein Sleeveless Colorblock Scuba",
+			Rating:     4,
+			Price:      59,
+			Quantity:   3,
+			Condition:  "New",
+			Image:      "/images/home/product1.jpg",
+			BrandID:    &brands[0].ID,
+			CategoryID: &category[10].ID,
+		}
+		prod4 := models.Product{
+			Name:       "Anne Klein Sleeveless Colorblock Scuba",
+			Rating:     4,
+			Price:      59,
+			Quantity:   3,
+			Condition:  "New",
+			Image:      "/images/home/product1.jpg",
+			BrandID:    &brands[1].ID,
+			CategoryID: &category[10].ID,
+		}
+		prod5 := models.Product{
+			Name:       "Anne Klein Sleeveless Colorblock Scuba",
+			Rating:     4,
+			Price:      59,
+			Quantity:   3,
+			Condition:  "New",
+			Image:      "/images/home/product1.jpg",
+			BrandID:    &brands[1].ID,
+			CategoryID: &category[10].ID,
+		}
+		prod6 := models.Product{
+			Name:       "Anne Klein Sleeveless Colorblock Scuba",
+			Rating:     4,
+			Price:      59,
+			Quantity:   3,
+			Condition:  "New",
+			Image:      "/images/home/product1.jpg",
+			BrandID:    &brands[1].ID,
+			CategoryID: &category[10].ID,
+		}
+
+		db.Create(&prod1)
+		db.Create(&prod2)
+		db.Create(&prod3)
+		db.Create(&prod4)
+		db.Create(&prod5)
+		db.Create(&prod6)
 	}
 
 	DB = db

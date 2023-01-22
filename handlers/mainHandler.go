@@ -10,7 +10,9 @@ import (
 func Index(c *fiber.Ctx) error {
 	var brands []models.Brand
 	var categories []models.Category
+	var products []models.Product
 
+	services.DB.Find(&products)
 	services.DB.Model(&models.Category{}).Preload("Childrens").Find(&categories)
 	services.DB.Find(&brands)
 
@@ -18,5 +20,6 @@ func Index(c *fiber.Ctx) error {
 		"Slider":     true,
 		"Brands":     brands,
 		"Categories": categories,
+		"Products":   products,
 	})
 }
