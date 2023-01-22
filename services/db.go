@@ -2,20 +2,28 @@ package services
 
 import (
 	"example/ecomers/models"
+	"fmt"
+	"log"
+	"os"
 
+	_ "github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
 var DB *gorm.DB
 
-func init() {
+func InitDataBase() {
+	db_user := os.Getenv("DB_USER")
+	db_pass := os.Getenv("DB_PASS")
 
-	dsn := "root:1234@tcp(localhost:3306)/ecomers?charset=utf8&parseTime=True&loc=Local"
+	fmt.Println(db_user, db_pass, "-----------------------------------")
+
+	dsn := db_user + ":" + db_pass + "@tcp(localhost:3306)/ecomers?charset=utf8&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {
-		panic("failed to connect database")
+		log.Fatal("failed to connect database")
 	}
 
 	db.AutoMigrate(&models.Brand{}, &models.Category{})
