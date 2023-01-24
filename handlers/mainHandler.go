@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"example/ecomers/helpers"
 	"example/ecomers/models"
 	"example/ecomers/services"
 
@@ -8,18 +9,12 @@ import (
 )
 
 func Index(c *fiber.Ctx) error {
-	var brands []models.Brand
-	var categories []models.Category
 	var products []models.Product
 
 	services.DB.Find(&products)
-	services.DB.Model(&models.Category{}).Preload("Childrens").Find(&categories)
-	services.DB.Find(&brands)
 
-	return c.Render("index", fiber.Map{
-		"Slider":     true,
-		"Brands":     brands,
-		"Categories": categories,
-		"Products":   products,
-	})
+	return c.Render("index", helpers.PreloadMainLayoutData(fiber.Map{
+		"Slider":   true,
+		"Products": products,
+	}))
 }

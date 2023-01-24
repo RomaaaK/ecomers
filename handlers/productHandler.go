@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"example/ecomers/helpers"
 	"example/ecomers/models"
 	"example/ecomers/services"
 	"strconv"
@@ -10,7 +11,6 @@ import (
 
 func Product(c *fiber.Ctx) error {
 	var brands []models.Brand
-	var categories []models.Category
 	var product models.Product
 
 	id, err := strconv.Atoi(c.Params("id"))
@@ -19,7 +19,6 @@ func Product(c *fiber.Ctx) error {
 		return c.SendStatus(404)
 	}
 
-	services.DB.Model(&models.Category{}).Preload("Childrens").Find(&categories)
 	services.DB.Find(&brands)
 	services.DB.First(&product, id)
 
@@ -36,20 +35,13 @@ func Product(c *fiber.Ctx) error {
 		}
 	}
 
-	return c.Render("product-details", fiber.Map{
-		"Brands":       brands,
-		"Categories":   categories,
+	return c.Render("product-details", helpers.PreloadMainLayoutData(fiber.Map{
 		"Product":      product,
 		"ProductBrand": productBrand,
-	})
+	}))
 }
 
 func ProductByCategory(c *fiber.Ctx) error {
-	var brands []models.Brand
-	var categories []models.Category
-
-	services.DB.Model(&models.Category{}).Preload("Childrens").Find(&categories)
-	services.DB.Find(&brands)
 
 	id, err := strconv.Atoi(c.Params("id"))
 
@@ -61,19 +53,12 @@ func ProductByCategory(c *fiber.Ctx) error {
 
 	services.DB.Where("category_id = ?", id).Find(&products)
 
-	return c.Render("index", fiber.Map{
-		"Brands":     brands,
-		"Categories": categories,
-		"Products":   products,
-	})
+	return c.Render("index", helpers.PreloadMainLayoutData(fiber.Map{
+		"Products": products,
+	}))
 }
 
 func ProductByBrand(c *fiber.Ctx) error {
-	var brands []models.Brand
-	var categories []models.Category
-
-	services.DB.Model(&models.Category{}).Preload("Childrens").Find(&categories)
-	services.DB.Find(&brands)
 
 	id, err := strconv.Atoi(c.Params("id"))
 
@@ -85,9 +70,7 @@ func ProductByBrand(c *fiber.Ctx) error {
 
 	services.DB.Where("brand_id = ?", id).Find(&products)
 
-	return c.Render("index", fiber.Map{
-		"Brands":     brands,
-		"Categories": categories,
-		"Products":   products,
-	})
+	return c.Render("index", helpers.PreloadMainLayoutData(fiber.Map{
+		"Products": products,
+	}))
 }
