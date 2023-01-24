@@ -10,6 +10,7 @@ type Product struct {
 	Quantity   uint
 	Condition  string
 	Image      string
+	Brand      Brand
 	BrandID    *uint
 	CategoryID *uint
 }

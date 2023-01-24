@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"example/ecomers/helpers"
-	"example/ecomers/models"
 	"example/ecomers/services"
 	"strconv"
 
@@ -10,8 +9,6 @@ import (
 )
 
 func Product(c *fiber.Ctx) error {
-	var brands []models.Brand
-	var product models.Product
 
 	id, err := strconv.Atoi(c.Params("id"))
 
@@ -19,25 +16,14 @@ func Product(c *fiber.Ctx) error {
 		return c.SendStatus(404)
 	}
 
-	services.DB.Find(&brands)
-	services.DB.First(&product, id)
+	product, err := services.GetProductById(id)
 
-	if product.ID == 0 {
+	if err != nil {
 		return c.SendStatus(404)
 	}
 
-	var productBrand models.Brand
-
-	for _, b := range brands {
-		if b.ID == *product.BrandID {
-			productBrand = b
-			break
-		}
-	}
-
 	return c.Render("product-details", helpers.PreloadMainLayoutData(fiber.Map{
-		"Product":      product,
-		"ProductBrand": productBrand,
+		"Product": product,
 	}))
 }
 
@@ -49,12 +35,8 @@ func ProductByCategory(c *fiber.Ctx) error {
 		return c.SendStatus(404)
 	}
 
-	var products []models.Product
-
-	services.DB.Where("category_id = ?", id).Find(&products)
-
 	return c.Render("index", helpers.PreloadMainLayoutData(fiber.Map{
-		"Products": products,
+		"Products": services.GetProductsByCategory(id),
 	}))
 }
 
@@ -66,11 +48,7 @@ func ProductByBrand(c *fiber.Ctx) error {
 		return c.SendStatus(404)
 	}
 
-	var products []models.Product
-
-	services.DB.Where("brand_id = ?", id).Find(&products)
-
 	return c.Render("index", helpers.PreloadMainLayoutData(fiber.Map{
-		"Products": products,
+		"Products": services.GetProductsByBrand(id),
 	}))
 }
