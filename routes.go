@@ -2,15 +2,23 @@ package main
 
 import (
 	"example/ecomers/handlers"
+	"example/ecomers/middleware"
 
 	"github.com/gofiber/fiber/v2"
 )
 
 func Routes(app *fiber.App) {
-	app.Get("/", handlers.Index)
-	app.Get("/product/:id<int>", handlers.Product)
-	app.Get("/category/:id<int>", handlers.ProductByCategory)
-	app.Get("/brand/:id<int>", handlers.ProductByBrand)
-	app.Get("/blog", handlers.Blog)
-	app.Get("/blog/:id<int>", handlers.BlogById)
+
+	mainLayout := app.Group("/")
+
+	mainLayout.Use(middleware.BindMainLayoutData)
+
+	mainLayout.Get("/", handlers.Index)
+	mainLayout.Get("/product/:id<int>", handlers.Product)
+	mainLayout.Get("/category/:id<int>", handlers.ProductByCategory)
+	mainLayout.Get("/brand/:id<int>", handlers.ProductByBrand)
+
+	blog := mainLayout.Group("/blog")
+	blog.Get("/", handlers.Blog)
+	blog.Get("/:id<int>", handlers.BlogById)
 }

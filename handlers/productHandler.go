@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"example/ecomers/helpers"
 	"example/ecomers/services"
 	"strconv"
 
@@ -22,9 +21,9 @@ func Product(c *fiber.Ctx) error {
 		return c.SendStatus(404)
 	}
 
-	return c.Render("product-details", helpers.PreloadMainLayoutData(fiber.Map{
+	return c.Render("product-details", fiber.Map{
 		"Product": product,
-	}))
+	})
 }
 
 func ProductByCategory(c *fiber.Ctx) error {
@@ -35,9 +34,9 @@ func ProductByCategory(c *fiber.Ctx) error {
 		return c.SendStatus(404)
 	}
 
-	return c.Render("index", helpers.PreloadMainLayoutData(fiber.Map{
+	return c.Render("index", fiber.Map{
 		"Products": services.GetProductsByCategory(id),
-	}))
+	})
 }
 
 func ProductByBrand(c *fiber.Ctx) error {
@@ -48,7 +47,7 @@ func ProductByBrand(c *fiber.Ctx) error {
 		return c.SendStatus(404)
 	}
 
-	return c.Render("index", helpers.PreloadMainLayoutData(fiber.Map{
+	return c.Render("index", fiber.Map{
 		"Products": services.GetProductsByBrand(id),
-	}))
+	})
 }
