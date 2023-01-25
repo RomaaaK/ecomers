@@ -12,13 +12,13 @@ func Product(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 
 	if err != nil {
-		return c.SendStatus(404)
+		return c.Next()
 	}
 
 	product, err := services.GetProductById(id)
 
 	if err != nil {
-		return c.SendStatus(404)
+		return c.Next()
 	}
 
 	return c.Render("product-details", fiber.Map{

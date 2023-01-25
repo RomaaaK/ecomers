@@ -21,4 +21,6 @@ func Routes(app *fiber.App) {
 	blog := mainLayout.Group("/blog")
 	blog.Get("/", handlers.Blog)
 	blog.Get("/:id<int>", handlers.BlogById)
+
+	mainLayout.Use(middleware.NotFoundMiddleware)
 }
