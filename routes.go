@@ -10,9 +10,7 @@ import (
 func Routes(app *fiber.App) {
 
 	mainLayout := app.Group("/")
-
 	mainLayout.Use(middleware.BindMainLayoutData)
-
 	mainLayout.Get("/", handlers.Index)
 	mainLayout.Get("/product/:id<int>", handlers.Product)
 	mainLayout.Get("/category/:id<int>", handlers.ProductByCategory)
@@ -21,6 +19,4 @@ func Routes(app *fiber.App) {
 	blog := mainLayout.Group("/blog")
 	blog.Get("/", handlers.Blog)
 	blog.Get("/:id<int>", handlers.BlogById)
-
-	mainLayout.Use(middleware.NotFoundMiddleware)
 }

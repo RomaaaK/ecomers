@@ -1,6 +1,7 @@
 package main
 
 import (
+	"example/ecomers/handlers"
 	"example/ecomers/services"
 	"log"
 
@@ -23,8 +24,9 @@ func main() {
 	services.InitDataBase()
 
 	app := fiber.New(fiber.Config{
-		Views:       engine,
-		ViewsLayout: "layouts/main",
+		Views:        engine,
+		ViewsLayout:  "layouts/main",
+		ErrorHandler: handlers.ErrorHandler,
 	})
 
 	app.Static("/", "./public")

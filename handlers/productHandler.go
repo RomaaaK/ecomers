@@ -12,13 +12,13 @@ func Product(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 
 	if err != nil {
-		return c.Next()
+		return fiber.NewError(fiber.StatusNotFound)
 	}
 
 	product, err := services.GetProductById(id)
 
 	if err != nil {
-		return c.Next()
+		return fiber.NewError(fiber.StatusNotFound)
 	}
 
 	return c.Render("product-details", fiber.Map{
@@ -31,7 +31,7 @@ func ProductByCategory(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 
 	if err != nil {
-		return c.SendStatus(404)
+		return fiber.NewError(fiber.StatusNotFound)
 	}
 
 	return c.Render("index", fiber.Map{
@@ -44,7 +44,7 @@ func ProductByBrand(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 
 	if err != nil {
-		return c.SendStatus(404)
+		return fiber.NewError(fiber.StatusNotFound)
 	}
 
 	return c.Render("index", fiber.Map{

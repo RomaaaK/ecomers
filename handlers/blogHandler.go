@@ -19,13 +19,13 @@ func BlogById(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 
 	if err != nil {
-		return c.Next()
+		return fiber.NewError(fiber.StatusNotFound)
 	}
 
 	post, err := services.GetPostById(id)
 
 	if err != nil {
-		return c.Next()
+		return fiber.NewError(fiber.StatusNotFound)
 	}
 
 	return c.Render("blog/post", fiber.Map{
