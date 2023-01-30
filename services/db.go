@@ -22,20 +22,20 @@ func InitDataBase() {
 		log.Fatal("failed to connect database")
 	}
 
-	db.AutoMigrate(&models.Brand{}, &models.Category{}, &models.Product{}, &models.Blog{})
+	db.AutoMigrate(&models.Brand{}, &models.Category{}, &models.Product{}, &models.Post{})
 
 	var brands []models.Brand
 	var category []models.Category
 	var products []models.Product
-	var blogs []models.Blog
+	var posts []models.Post
 
 	db.Find(&brands)
 	db.Model(&models.Category{}).Preload("Childrens").Find(&category)
 	db.Find(&products)
-	db.Find(&blogs)
+	db.Find(&posts)
 
-	if len(blogs) == 0 {
-		post1 := models.Blog{
+	if len(posts) == 0 {
+		post1 := models.Post{
 			Title: "GIRLS PINK T SHIRT ARRIVED IN STORE",
 			Image: "images/blog/blog-one.jpg",
 			Text: `Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
@@ -48,7 +48,7 @@ func InitDataBase() {
 			`,
 		}
 
-		post2 := models.Blog{
+		post2 := models.Post{
 			Title: "GIRLS PINK T SHIRT ARRIVED IN STORE",
 			Image: "images/blog/blog-two.jpg",
 			Text: `Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
@@ -61,7 +61,7 @@ func InitDataBase() {
 			`,
 		}
 
-		post3 := models.Blog{
+		post3 := models.Post{
 			Title: "GIRLS PINK T SHIRT ARRIVED IN STORE",
 			Image: "images/blog/blog-three.jpg",
 			Text: `Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.

@@ -10,7 +10,7 @@ import (
 func Blog(c *fiber.Ctx) error {
 
 	return c.Render("blog/index", fiber.Map{
-		"Posts": services.GetBlogs(),
+		"Posts": services.GetPosts(),
 	})
 }
 
@@ -22,13 +22,13 @@ func BlogById(c *fiber.Ctx) error {
 		return c.Next()
 	}
 
-	post, err := services.GetBlogById(id)
+	post, err := services.GetPostById(id)
 
 	if err != nil {
 		return c.Next()
 	}
 
-	return c.Render("blog/blog-single", fiber.Map{
+	return c.Render("blog/post", fiber.Map{
 		"Post": post,
 	})
 }
